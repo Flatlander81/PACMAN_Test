@@ -47,7 +47,38 @@ A classic Pac-Man game implementation in C++ using OpenGL and GLFW.
 
 ### Build Instructions
 
-#### Using vcpkg (Recommended)
+#### Method 1: Using Visual Studio or Rider (Easiest)
+
+The repository includes a pre-configured Visual Studio solution file.
+
+1. **Install GLFW via vcpkg:**
+   ```cmd
+   vcpkg install glfw3:x64-windows
+   vcpkg integrate install
+   ```
+
+2. **Open the solution:**
+   - Double-click `Pacman.sln` to open in Visual Studio
+   - Or open `Pacman.sln` in JetBrains Rider
+
+3. **Set build configuration:**
+   - Select `Release` or `Debug` configuration
+   - Select `x64` platform
+
+4. **Build:**
+   - Press `Ctrl+Shift+B` or click Build → Build Solution
+   - Or in Rider: Build → Build Solution
+
+5. **Run:**
+   - Press `F5` to run with debugging
+   - Or `Ctrl+F5` to run without debugging
+   - Executable will be in `bin/Release/Pacman.exe` or `bin/Debug/Pacman.exe`
+
+**Note:** The solution uses `Directory.Build.props` to automatically find vcpkg. Make sure you either:
+- Set the `VCPKG_ROOT` environment variable to your vcpkg installation path, OR
+- Have vcpkg installed at `C:\vcpkg\` or `%USERPROFILE%\vcpkg\`
+
+#### Method 2: Using CMake with vcpkg
 
 ```cmd
 # From the repository root

@@ -20,6 +20,11 @@ cmake_install.cmake
 *.user
 *.log
 
+# But keep our main solution files
+!Pacman.sln
+!Pacman.vcxproj
+!Pacman.vcxproj.filters
+
 # Executables
 *.exe
 *.out

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <!--
+      This file helps integrate vcpkg with the Visual Studio solution.
+      If you're using vcpkg, it will automatically find the installed packages.
+    -->
+  </PropertyGroup>
+
+  <!-- Automatically use vcpkg if VCPKG_ROOT is set -->
+  <Import Project="$(VCPKG_ROOT)\scripts\buildsystems\msbuild\vcpkg.props" Condition="Exists('$(VCPKG_ROOT)\scripts\buildsystems\msbuild\vcpkg.props')" />
+
+  <!-- Alternative: Look for vcpkg in common locations -->
+  <Import Project="$(UserProfile)\vcpkg\scripts\buildsystems\msbuild\vcpkg.props" Condition="!Exists('$(VCPKG_ROOT)\scripts\buildsystems\msbuild\vcpkg.props') And Exists('$(UserProfile)\vcpkg\scripts\buildsystems\msbuild\vcpkg.props')" />
+  <Import Project="C:\vcpkg\scripts\buildsystems\msbuild\vcpkg.props" Condition="!Exists('$(VCPKG_ROOT)\scripts\buildsystems\msbuild\vcpkg.props') And !Exists('$(UserProfile)\vcpkg\scripts\buildsystems\msbuild\vcpkg.props') And Exists('C:\vcpkg\scripts\buildsystems\msbuild\vcpkg.props')" />
+</Project>
