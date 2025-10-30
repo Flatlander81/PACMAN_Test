@@ -147,8 +147,8 @@ void Pacman::Update(float deltaTime, const Level& level) {
     // Wrap around screen edges (classic Pac-Man tunnels)
     // The maze is 28 tiles wide (indices 0-27)
     // Left tunnel exit is at tile 0, right tunnel exit is at tile 27
-    float leftEdge = 0.0f;
-    float rightEdge = level.GetWidth() * tileSize;
+    float leftEdge = tileSize;
+    float rightEdge = (level.GetWidth() -1 ) * tileSize;
 
     // When going left past tile 0, wrap to the right side (tile 27)
     if (x < leftEdge) {
