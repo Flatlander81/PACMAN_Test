@@ -41,20 +41,76 @@ void Pacman::Update(float deltaTime, const Level& level) {
     if (!alive) return;
 
     float moveDistance = speed * deltaTime;
+    float tileSize = level.GetTileSize();
+
+    // Get current grid position
+    int gridX, gridY;
+    level.WorldToGrid(x, y, gridX, gridY);
+    Position tileCenter = level.GridToWorld(gridX, gridY);
+
+    // Calculate distance from tile center
+    float distFromCenterX = fabsf(x - tileCenter.x);
+    float distFromCenterY = fabsf(y - tileCenter.y);
+
+    // Threshold for considering we're "at" the tile center (about 1/4 tile)
+    float alignmentThreshold = tileSize * 0.25f;
 
     // Try to change to next direction if possible
     if (nextDirection != Direction::NONE && nextDirection != currentDirection) {
-        float testX = x, testY = y;
+        bool canChangeDirection = false;
 
-        switch (nextDirection) {
-            case Direction::UP:    testY -= moveDistance; break;
-            case Direction::DOWN:  testY += moveDistance; break;
-            case Direction::LEFT:  testX -= moveDistance; break;
-            case Direction::RIGHT: testX += moveDistance; break;
-            default: break;
+        // Check if we're trying to reverse direction (always allowed)
+        bool isReverse = false;
+        if ((currentDirection == Direction::UP && nextDirection == Direction::DOWN) ||
+            (currentDirection == Direction::DOWN && nextDirection == Direction::UP) ||
+            (currentDirection == Direction::LEFT && nextDirection == Direction::RIGHT) ||
+            (currentDirection == Direction::RIGHT && nextDirection == Direction::LEFT)) {
+            isReverse = true;
         }
 
-        if (CanMove(testX, testY, level)) {
+        if (isReverse) {
+            // Allow immediate reversal
+            canChangeDirection = true;
+        } else {
+            // For perpendicular turns, need to be somewhat aligned with grid
+            bool alignedForTurn = false;
+
+            if ((nextDirection == Direction::UP || nextDirection == Direction::DOWN)) {
+                // Turning vertical - need to be horizontally aligned
+                alignedForTurn = (distFromCenterX < alignmentThreshold);
+            } else if ((nextDirection == Direction::LEFT || nextDirection == Direction::RIGHT)) {
+                // Turning horizontal - need to be vertically aligned
+                alignedForTurn = (distFromCenterY < alignmentThreshold);
+            }
+
+            if (alignedForTurn) {
+                // Check if there's a valid path in the new direction
+                float testX = tileCenter.x;
+                float testY = tileCenter.y;
+
+                // Test a full tile distance in the new direction
+                switch (nextDirection) {
+                    case Direction::UP:    testY -= tileSize * 0.6f; break;
+                    case Direction::DOWN:  testY += tileSize * 0.6f; break;
+                    case Direction::LEFT:  testX -= tileSize * 0.6f; break;
+                    case Direction::RIGHT: testX += tileSize * 0.6f; break;
+                    default: break;
+                }
+
+                if (CanMove(testX, testY, level)) {
+                    canChangeDirection = true;
+
+                    // Snap to grid alignment when making a perpendicular turn
+                    if (nextDirection == Direction::UP || nextDirection == Direction::DOWN) {
+                        x = tileCenter.x;
+                    } else {
+                        y = tileCenter.y;
+                    }
+                }
+            }
+        }
+
+        if (canChangeDirection) {
             currentDirection = nextDirection;
         }
     }
