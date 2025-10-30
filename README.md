@@ -23,7 +23,7 @@ A classic Pac-Man game implementation in C++ using OpenGL and GLFW.
 
 ## Quick Start Guide (Windows)
 
-**The simplest way to build and run:**
+**The simplest way to build and run (NO CMAKE NEEDED!):**
 
 1. Install **Visual Studio Community** (free): https://visualstudio.microsoft.com/downloads/
    - Select "Desktop development with C++" during installation
@@ -38,11 +38,20 @@ A classic Pac-Man game implementation in C++ using OpenGL and GLFW.
    .\vcpkg integrate install
    ```
 
-3. Open `Pacman.sln` in Visual Studio
+3. **Double-click `Pacman.sln`** to open in Visual Studio
 
 4. Press `Ctrl+Shift+B` to build, then `F5` to run!
 
-**That's it!** No CMake needed for this method.
+**That's it!** This method uses the Visual Studio solution file directly - no CMake, no batch scripts, just open and build!
+
+### Alternative: Using the Build Script
+
+If you prefer automation, you can use `build_windows.bat` instead:
+- It will automatically detect your Visual Studio version (2017/2019/2022)
+- It will find vcpkg in common locations
+- Just double-click `build_windows.bat` and it handles everything
+
+But remember: **The .sln file method above is simpler!**
 
 ---
 
