@@ -21,29 +21,111 @@ A classic Pac-Man game implementation in C++ using OpenGL and GLFW.
 - **R** - Restart Game
 - **ESC** - Exit Game
 
+## Quick Start Guide (Windows)
+
+**The simplest way to build and run:**
+
+1. Install **Visual Studio Community** (free): https://visualstudio.microsoft.com/downloads/
+   - Select "Desktop development with C++" during installation
+
+2. Install **vcpkg** and **GLFW**:
+   ```cmd
+   cd C:\
+   git clone https://github.com/Microsoft/vcpkg.git
+   cd vcpkg
+   .\bootstrap-vcpkg.bat
+   .\vcpkg install glfw3:x64-windows
+   .\vcpkg integrate install
+   ```
+
+3. Open `Pacman.sln` in Visual Studio
+
+4. Press `Ctrl+Shift+B` to build, then `F5` to run!
+
+**That's it!** No CMake needed for this method.
+
+---
+
 ## Building on Windows
 
 ### Prerequisites
 
-1. **CMake** (version 3.15 or higher)
-   - Download from https://cmake.org/download/
-   - Or install via Chocolatey: `choco install cmake`
+#### 1. Visual Studio (2017 or later) - **REQUIRED**
+   - Download from https://visualstudio.microsoft.com/downloads/
+   - **Community Edition is free** and works perfectly
+   - During installation, select the **"Desktop development with C++"** workload
+   - This is required for compiling C++ code
 
-2. **Visual Studio** (2017 or later)
-   - Download from https://visualstudio.microsoft.com/
-   - Make sure to install the "Desktop development with C++" workload
+#### 2. CMake (version 3.15 or higher) - **Optional** (only needed for Method 2)
 
-3. **GLFW Library**
-   - Option 1: Using vcpkg (recommended)
-     ```cmd
-     git clone https://github.com/Microsoft/vcpkg.git
-     cd vcpkg
-     .\bootstrap-vcpkg.bat
-     .\vcpkg install glfw3:x64-windows
-     ```
-   - Option 2: Manual installation
-     - Download pre-compiled binaries from https://www.glfw.org/download.html
-     - Extract and note the installation path
+   **Note:** If you're using Method 1 (Visual Studio solution), you DON'T need CMake!
+
+   Choose one of these installation methods:
+
+   **Option A: Using Visual Studio Installer (Easiest)**
+   1. Open Visual Studio Installer
+   2. Click "Modify" on your Visual Studio installation
+   3. Go to "Individual components" tab
+   4. Search for "CMake"
+   5. Check "CMake tools for Windows"
+   6. Click "Modify" to install
+
+   **Option B: Download Installer from CMake.org**
+   1. Go to https://cmake.org/download/
+   2. Download the Windows x64 Installer: `cmake-3.xx.x-windows-x86_64.msi`
+   3. Run the installer
+   4. **Important:** During installation, select "Add CMake to the system PATH for all users"
+   5. Complete the installation
+   6. Verify by opening a new Command Prompt and typing: `cmake --version`
+
+   **Option C: Using Chocolatey Package Manager**
+
+   If you have Chocolatey installed:
+   ```cmd
+   choco install cmake
+   ```
+
+   To install Chocolatey first (if needed):
+   1. Open PowerShell as Administrator
+   2. Run:
+      ```powershell
+      Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+      ```
+   3. Then install CMake: `choco install cmake`
+
+   **Option D: Using winget (Windows 11 or Windows 10 with App Installer)**
+   ```cmd
+   winget install Kitware.CMake
+   ```
+
+#### 3. GLFW Library - **REQUIRED**
+
+   **Option 1: Using vcpkg (Recommended - Automatic)**
+
+   1. Open Command Prompt or PowerShell
+   2. Install vcpkg:
+      ```cmd
+      cd C:\
+      git clone https://github.com/Microsoft/vcpkg.git
+      cd vcpkg
+      .\bootstrap-vcpkg.bat
+      ```
+   3. Install GLFW:
+      ```cmd
+      .\vcpkg install glfw3:x64-windows
+      ```
+   4. Integrate with Visual Studio:
+      ```cmd
+      .\vcpkg integrate install
+      ```
+   5. Set environment variable (optional but helpful):
+      - Right-click "This PC" → Properties → Advanced System Settings → Environment Variables
+      - Add new System Variable: `VCPKG_ROOT` = `C:\vcpkg`
+
+   **Option 2: Manual installation (Advanced)**
+   - Download pre-compiled binaries from https://www.glfw.org/download.html
+   - Extract and note the installation path
+   - You'll need to manually configure include/library paths
 
 ### Build Instructions
 
