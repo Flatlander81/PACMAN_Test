@@ -259,10 +259,19 @@ void Ghost::Move(float deltaTime, const Level& level) {
         y = newY;
     }
 
-    // Wrap around screen edges
-    float levelWidth = level.GetWidth() * level.GetTileSize();
-    if (x < -radius) x = levelWidth + radius;
-    if (x > levelWidth + radius) x = -radius;
+    // Wrap around screen edges (tunnel wrapping)
+    float tileSize = level.GetTileSize();
+    float leftEdge = 0.0f;
+    float rightEdge = level.GetWidth() * tileSize;
+
+    // When going left past tile 0, wrap to the right side (tile 27)
+    if (x < leftEdge) {
+        x = rightEdge - (leftEdge - x);
+    }
+    // When going right past tile 27, wrap to the left side (tile 0)
+    else if (x > rightEdge) {
+        x = leftEdge + (x - rightEdge);
+    }
 
     // Check if eaten ghost reached home
     if (mode == GhostMode::EATEN) {
